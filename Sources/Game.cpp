@@ -49,7 +49,7 @@ void Update()
         // ターゲットと弾の当たり判定
         Rect bulletRect(bulletPos, Vector2(32, 20));
         if (targetRect.Overlaps(bulletRect)) {
-            score += 1;         // スコアの加算
+            score += 100;         // スコアの加算 //HW16A007
             bulletPos.x = -999; // 弾を発射可能な状態に戻す
         }
         
@@ -65,6 +65,10 @@ void Update()
 
     // 雲の描画
     DrawImage("cloud1.png", cloudPos);
+    cloudPos.x += 40 * Time::deltaTime; //HW16A007 Ikeda Yuto
+    if(cloudPos.x >= SCREEN_SIZE.x/2){
+        cloudPos.x =-320;               //HW16A007 IkedaYuto
+    }
 
     // 弾の描画
     if (bulletPos.x > -999) {
@@ -81,7 +85,7 @@ void Update()
     // スコアの描画
     //HW15A153 Noma Ryoji (E)
     SetFont("nicoca_v1.ttf", 100.0f);
-    DrawText(FormatString("%02d", score), Vector2(-319, 150), Color::black);
-    DrawText(FormatString("%02d", score), Vector2(-320, 150), Color::white);
+    DrawText(FormatString("%05d", score), Vector2(-319, 150), Color::black); //HW16A007
+    DrawText(FormatString("%05d", score), Vector2(-320, 150), Color::white); //HW16A007
 }
 
