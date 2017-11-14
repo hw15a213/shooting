@@ -13,6 +13,7 @@
 
 Vector2 cloudPos;       //!< 雲の位置
 Vector2 cannonPos;      //!< 砲台の位置
+Vector2 cannonInitPos;  //!< 砲台の初期位置(実装：HW15A062　菊地龍大)
 Vector2 bulletPos;      //!< 弾の位置
 Rect    targetRect;     //!< ターゲットの矩形
 int     score;          //!< スコア
@@ -23,6 +24,7 @@ void Start()
 {
     cloudPos = Vector2(-320, 100);
     cannonPos = Vector2(-300, -150);// 砲台の位置を左に(実装：HW15A062　菊地龍大)
+    cannonInitPos = cannonPos;// 砲台の初期位置を取得(実装：HW15A062　菊地龍大)
     targetRect = Rect(260, -140, 40, 40);// ターゲットの位置を右に(実装：HW15A062　菊地龍大)
     bulletPos.x = -999;
     score = 0;
@@ -65,7 +67,8 @@ void Update()
     }
 
     // 砲台の描画
-    FillRect(Rect(cannonPos.x-10, -140, 20, 100), Color::blue);
+    FillRect(Rect(cannonInitPos.x-10, -140, 20, 100), Color::blue);// 描画位置を砲台の初期位置に(実装：HW15A062　菊地龍大)
+    cannonPos.y = -160 + 100 * Mathf::PingPong(Time::time, 1.0f);// 砲台を自動的に上下移動させる(実装：HW15A062　菊地龍大)
     DrawImage("cannon.png", cannonPos);
 
     // ターゲットの描画
