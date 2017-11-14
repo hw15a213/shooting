@@ -1,4 +1,5 @@
 #include "Game.hpp"
+#include "Settings.hpp"
 
 
 // TODO: 砲台の位置を画面左に、ターゲットの位置を画面右に移動させる。(A)
@@ -16,7 +17,7 @@ Vector2 cannonPos;      //!< 砲台の位置
 Vector2 bulletPos;      //!< 弾の位置
 Rect    targetRect;     //!< ターゲットの矩形
 int     score;          //!< スコア
-
+float   bulletSpeed;    //!< スピードの値
 
 // ゲーム開始時に呼ばれる関数です。
 void Start()
@@ -26,6 +27,8 @@ void Start()
     targetRect = Rect(80, -140, 40, 40);
     bulletPos.x = -999;
     score = 0;
+    // HW15A153 Noma Ryoji
+    bulletSpeed = 500;
     //PlayBGM();　ゲームのBGM
 }
 
@@ -40,12 +43,18 @@ void Update()
 
     // 弾の移動
     if (bulletPos.x > -999) {
-        bulletPos.x += 10 * Time::deltaTime;
+        // HW15A153 Noma Ryoji (D)
+        bulletPos.x += bulletSpeed * Time::deltaTime;
 
         // ターゲットと弾の当たり判定
         Rect bulletRect(bulletPos, Vector2(32, 20));
         if (targetRect.Overlaps(bulletRect)) {
             score += 1;         // スコアの加算
+            bulletPos.x = -999; // 弾を発射可能な状態に戻す
+        }
+        
+        // HW15A153 Noma Ryoji (D)
+        if (bulletPos.x > SCREEN_SIZE.x / 2) {
             bulletPos.x = -999; // 弾を発射可能な状態に戻す
         }
     }
@@ -70,8 +79,9 @@ void Update()
     FillRect(targetRect, Color::red);
 
     // スコアの描画
-    SetFont("nicoca_v1.ttf", 20.0f);
-    DrawText(FormatString("%02d", score), Vector2(-319, 199), Color::black);
-    DrawText(FormatString("%02d", score), Vector2(-320, 200), Color::white);
+    //HW15A153 Noma Ryoji (E)
+    SetFont("nicoca_v1.ttf", 100.0f);
+    DrawText(FormatString("%02d", score), Vector2(-319, 150), Color::black);
+    DrawText(FormatString("%02d", score), Vector2(-320, 150), Color::white);
 }
 
