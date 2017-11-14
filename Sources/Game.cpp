@@ -26,7 +26,7 @@ void Start()
     targetRect = Rect(80, -140, 40, 40);
     bulletPos.x = -999;
     score = 0;
-    PlayBGM("bgm_maoudamashii_8bit07.mp3"); //ゲームのBGM
+    PlayBGM("bgm_maoudamashii_8bit07.mp3"); //ゲームのBGM（実装:HW15A213 山本 裕生）
 }
 
 // 1/60秒ごとに呼ばれる関数です。モデルの更新と画面の描画を行います。
@@ -35,7 +35,7 @@ void Update()
     // 弾の発射
     if (bulletPos.x <= -999 && Input::GetKeyDown(KeyMask::Space)) {
         bulletPos = cannonPos + Vector2(50, 10);
-        PlaySound("se_maoudamashii_explosion03.mp3"); //弾発射時のSE
+        PlaySound("se_maoudamashii_explosion03.mp3"); //弾発射時のSE（実装:HW15A213 山本 裕生）
     }
 
     // 弾の移動
@@ -46,9 +46,9 @@ void Update()
         Rect bulletRect(bulletPos, Vector2(32, 20));
         if (targetRect.Overlaps(bulletRect)) {
             score += 1;         // スコアの加算
-            PlaySound("se_maoudamashii_system27.mp3"); //スコア加算時のSE
+            PlaySound("se_maoudamashii_system27.mp3"); //スコア加算時のSE（実装:HW15A213 山本 裕生）
             bulletPos.x = -999; // 弾を発射可能な状態に戻す
-            PlaySound("se_maoudamashii_system20.mp3"); //弾が当たった時のSE
+            PlaySound("se_maoudamashii_system20.mp3"); //弾が当たった時のSE（実装:HW15A213 山本 裕生）
         }
     }
 
