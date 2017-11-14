@@ -22,8 +22,8 @@ int     score;          //!< スコア
 void Start()
 {
     cloudPos = Vector2(-320, 100);
-    cannonPos = Vector2(-80, -150);
-    targetRect = Rect(80, -140, 40, 40);
+    cannonPos = Vector2(-300, -150);// 砲台の位置を左に(実装：HW15A062　菊地龍大)
+    targetRect = Rect(260, -140, 40, 40);// ターゲットの位置を右に(実装：HW15A062　菊地龍大)
     bulletPos.x = -999;
     score = 0;
     PlayBGM("bgm_maoudamashii_8bit07.mp3"); //ゲームのBGM（実装:HW15A213 山本 裕生）
