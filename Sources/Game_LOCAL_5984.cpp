@@ -1,5 +1,4 @@
 #include "Game.hpp"
-#include "Settings.hpp"
 
 
 // TODO: 砲台の位置を画面左に、ターゲットの位置を画面右に移動させる。(A)
@@ -18,20 +17,18 @@ Vector2 cannonInitPos;  //!< 砲台の初期位置(実装：HW15A062　菊地龍
 Vector2 bulletPos;      //!< 弾の位置
 Rect    targetRect;     //!< ターゲットの矩形
 int     score;          //!< スコア
-float   bulletSpeed;    //!< スピードの値
+
 
 // ゲーム開始時に呼ばれる関数です。
 void Start()
 {
     cloudPos = Vector2(-320, 100);
-    cannonPos = Vector2(-300, -150);// 砲台の位置を左に HW15A062　菊地龍大
-    cannonInitPos = cannonPos;// 砲台の初期位置を取得 HW15A062　菊地龍大
-    targetRect = Rect(260, -140, 40, 40);// ターゲットの位置を右に HW15A062　菊地龍大
+    cannonPos = Vector2(-300, -150);// 砲台の位置を左に(実装：HW15A062　菊地龍大)
+    cannonInitPos = cannonPos;// 砲台の初期位置を取得(実装：HW15A062　菊地龍大)
+    targetRect = Rect(260, -140, 40, 40);// ターゲットの位置を右に(実装：HW15A062　菊地龍大)
     bulletPos.x = -999;
     score = 0;
-    PlayBGM("bgm_maoudamashii_8bit07.mp3"); //ゲームのBGMHW15A213 山本 裕生
-    bulletSpeed = 500;
-    //PlayBGM();　ゲームのBGM
+    PlayBGM("bgm_maoudamashii_8bit07.mp3"); //ゲームのBGM（実装:HW15A213 山本 裕生）
 }
 
 // 1/60秒ごとに呼ばれる関数です。モデルの更新と画面の描画を行います。
@@ -40,30 +37,20 @@ void Update()
     // 弾の発射
     if (bulletPos.x <= -999 && Input::GetKeyDown(KeyMask::Space)) {
         bulletPos = cannonPos + Vector2(50, 10);
-        PlaySound("se_maoudamashii_explosion03.mp3");
-        //弾発射時のSE　HW15A213 山本 裕生
+        PlaySound("se_maoudamashii_explosion03.mp3"); //弾発射時のSE（実装:HW15A213 山本 裕生）
     }
 
     // 弾の移動
     if (bulletPos.x > -999) {
-        // HW15A153 Noma Ryoji
-        bulletPos.x += bulletSpeed * Time::deltaTime;
+        bulletPos.x += 10 * Time::deltaTime;
 
         // ターゲットと弾の当たり判定
         Rect bulletRect(bulletPos, Vector2(32, 20));
         if (targetRect.Overlaps(bulletRect)) {
-            PlaySound("se_maoudamashii_system27.mp3");
-            //スコア加算時のSE HW15A213 山本 裕生
-            score += 100;         // スコアの加算 //HW16A007 池田　悠斗
+            score += 1;         // スコアの加算
+            PlaySound("se_maoudamashii_system27.mp3"); //スコア加算時のSE（実装:HW15A213 山本 裕生）
             bulletPos.x = -999; // 弾を発射可能な状態に戻す
-        }
-        
-        
-        if (bulletPos.x > SCREEN_SIZE.x / 2) {
-            bulletPos.x = -999; // 弾を発射可能な状態に戻す
-            // HW15A153 Noma Ryoji (D)
-            PlaySound("se_maoudamashii_system20.mp3");
-            //弾が当たった時のSE HW15A213 山本 裕生
+            PlaySound("se_maoudamashii_system20.mp3"); //弾が当たった時のSE（実装:HW15A213 山本 裕生）
         }
     }
 
@@ -73,10 +60,6 @@ void Update()
 
     // 雲の描画
     DrawImage("cloud1.png", cloudPos);
-    cloudPos.x += 40 * Time::deltaTime; //HW16A007 Ikeda Yuto
-    if(cloudPos.x >= SCREEN_SIZE.x/2){
-        cloudPos.x =-320;               //HW16A007 IkedaYuto
-    }
 
     // 弾の描画
     if (bulletPos.x > -999) {
@@ -84,17 +67,17 @@ void Update()
     }
 
     // 砲台の描画
-    FillRect(Rect(cannonInitPos.x-10, -140, 20, 100), Color::blue);// 描画位置を砲台の初期位置に HW15A062　菊地龍大
-    cannonPos.y = -160 + 100 * Mathf::PingPong(Time::time, 1.0f);// 砲台を自動的に上下移動させる HW15A062　菊地龍大
+    FillRect(Rect(cannonInitPos.x-10, -140, 20, 100), Color::blue);// 描画位置を砲台の初期位置に(実装：HW15A062　菊地龍大)
+    cannonPos.y = -160 + 100 * Mathf::PingPong(Time::time, 1.0f);// 砲台を自動的に上下移動させる(実装：HW15A062　菊地龍大)
     DrawImage("cannon.png", cannonPos);
 
     // ターゲットの描画
     FillRect(targetRect, Color::red);
 
     // スコアの描画
-    SetFont("nicoca_v1.ttf", 100.0f);
-    DrawText(FormatString("%05d", score), Vector2(-319, 150), Color::black); //HW16A007 池田　悠斗
-    DrawText(FormatString("%05d", score), Vector2(-320, 150), Color::white); //HW16A007 池田　悠斗
-
+    SetFont("nicoca_v1.ttf", 20.0f);
+    DrawText(FormatString("%02d", score), Vector2(-319, 199), Color::black);
+    DrawText(FormatString("%02d", score), Vector2(-320, 200), Color::white);
+    
 }
 
